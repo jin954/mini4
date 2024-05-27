@@ -29,97 +29,65 @@ body {
     display: none;
 }
 
-#clock.active, #pomodoro.active, #countdown.active {
+.active {
     display: block;
 }
 
 .switch {
-    margin-top: 20px;
     display: flex;
     justify-content: center;
+    margin: 10px 0;
 }
 
 .switch label {
-    margin-right: 10px;
-    padding: 5px 10px;
-    border: 2px solid black;
-    border-radius: 25px;
-    background: white;
-    color: black;
-    cursor: pointer;
-}
-
-.switch input[type="radio"] {
-    display: none;
-}
-
-.switch input[type="radio"]:checked + label {
-    background: black;
-    color: white;
-}
-
-#pomodoro, #countdown {
-    transform: scale(0.8);
-}
-
-#pomodoro .buttons, #countdown .buttons {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-#pomodoro .buttons button, #pomodoro .pomodoro-controls button, 
-#countdown .countdown-controls button {
-    font-size: 1.2em;
-    padding: 10px 20px;
-    margin: 5px;
-    border: none;
-    background: #e94560;
-    color: white;
-    cursor: pointer;
-    border-radius: 25px;
-}
-
-#pomodoro .buttons button {
-    background: #0f3460;
-}
-
-#pomodoro .buttons button.active {
-    background: #e94560;
-}
-
-.settings-button {
-    font-size: 1.2em;
-    background: none;
-    border: none;
-    color: inherit;
+    margin: 0 10px;
     cursor: pointer;
 }
 
 .settings-panel {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    color: black;
-    padding: 20px;
-    border: 2px solid black;
-    border-radius: 10px;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
 }
 
 .settings-panel label {
     display: block;
-    margin-bottom: 10px;
+    margin: 5px 0;
 }
 
-.settings-panel button {
-    display: block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #e94560;
-    color: white;
-    border: none;
-    border-radius: 25px;
+.settings-button {
     cursor: pointer;
+    font-size: 1.2em;
+    background: none;
+    border: none;
+    color: white;
+}
+
+.buttons button, .pomodoro-controls button {
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    background: #222;
+    color: white;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.countdown-segment {
+    display: inline-block;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.countdown-number {
+    font-size: 2em;
+}
+
+.countdown-label {
+    font-size: 0.8em;
 }
