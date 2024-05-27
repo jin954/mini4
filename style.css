@@ -1,93 +1,77 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100vh;
     margin: 0;
-    background: #1a1a2e;
-    color: white;
+    background-color: #f0f0f0;
 }
 
-#date {
-    font-size: 0.8em;
-}
-
-#time, #countdownDisplay {
-    font-size: 2em;
-    letter-spacing: -0.03em;
-}
-
-#timer {
-    font-size: 3.5em;
-    margin: 10px 0;
-}
-
-#clock, #pomodoro, #countdown {
+.container {
     text-align: center;
-    display: none;
-}
-
-.active {
-    display: block;
 }
 
 .switch {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
+    margin-bottom: 20px;
 }
 
 .switch label {
-    margin: 0 10px;
-    cursor: pointer;
+    margin-right: 15px;
+}
+
+.mode {
+    display: none;
+}
+
+.mode.active {
+    display: block;
+}
+
+.settings-button {
+    margin-top: 10px;
 }
 
 .settings-panel {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
+    display: none;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .settings-panel label {
     display: block;
-    margin: 5px 0;
+    margin-bottom: 10px;
 }
 
-.settings-button {
-    cursor: pointer;
-    font-size: 1.2em;
-    background: none;
-    border: none;
-    color: white;
+#time {
+    font-size: 3em;
 }
 
-.buttons button, .pomodoro-controls button {
-    padding: 5px 10px;
-    margin: 5px;
-    border: none;
-    cursor: pointer;
-    background: #222;
-    color: white;
-    font-size: 1em;
-    border-radius: 5px;
+#date {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.pomodoro-controls, .countdown-controls {
+    margin-top: 20px;
 }
 
 .countdown-segment {
     display: inline-block;
-    text-align: center;
     margin: 0 10px;
+    text-align: center;
 }
 
 .countdown-number {
     font-size: 2em;
+    display: block;
 }
 
 .countdown-label {
-    font-size: 0.8em;
+    font-size: 0.75em;
 }
