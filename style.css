@@ -1,77 +1,122 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
-}
-
-.container {
-    text-align: center;
-}
-
-.switch {
-    margin-bottom: 20px;
-}
-
-.switch label {
-    margin-right: 15px;
-}
-
-.mode {
-    display: none;
-}
-
-.mode.active {
-    display: block;
-}
-
-.settings-button {
-    margin-top: 10px;
-}
-
-.settings-panel {
-    display: none;
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.settings-panel label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-#time {
-    font-size: 3em;
+    background: #1a1a2e;
+    color: white;
 }
 
 #date {
-    font-size: 1.5em;
-    margin-bottom: 20px;
+    font-size: 0.6em;
 }
 
-.pomodoro-controls, .countdown-controls {
-    margin-top: 20px;
+#time {
+    font-size: 2.5em;
+    letter-spacing: -0.03em;
 }
 
-.countdown-segment {
-    display: inline-block;
-    margin: 0 10px;
+#clock, #pomodoro {
     text-align: center;
+    display: none;
 }
 
-.countdown-number {
-    font-size: 2em;
+#clock.active, #pomodoro.active {
     display: block;
 }
 
-.countdown-label {
-    font-size: 0.75em;
+.switch {
+    margin-top: 20px;
+}
+
+.switch label {
+    margin-right: 10px;
+}
+
+#pomodoro {
+    transform: scale(0.8);
+}
+
+#pomodoro .buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#pomodoro .buttons button {
+    margin: 0 5px;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 25px;
+    background: white;
+    color: #1a1a2e;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+#pomodoro .buttons button.active {
+    background: #e94560;
+    color: white;
+}
+
+#timer {
+    font-size: 3em;
+    margin: 10px 0;
+}
+
+.pomodoro-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.pomodoro-controls button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 25px;
+    background: white;
+    color: #1a1a2e;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#open-settings {
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#settings {
+    margin-top: 10px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#settings label {
+    display: block;
+    margin: 10px 0;
+    color: #1a1a2e;
+}
+
+#settings input {
+    width: 50px;
+    padding: 5px;
+    border: 1px solid #1a1a2e;
+    border-radius: 5px;
+}
+
+#set-pomodoro {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-radius: 25px;
+    background: #1a1a2e;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
 }
