@@ -81,7 +81,7 @@ body {
     background: white;
     color: #1a1a2e;
     cursor: pointer;
-    font-size: 1em; /* ボタンテキストのフォントサイズを小さく */
+    font-size: 10em; /* ボタンテキストのフォントサイズを小さく */
 }
 
 #open-settings {
