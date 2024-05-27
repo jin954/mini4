@@ -74,8 +74,8 @@ body {
 }
 
 .pomodoro-controls button {
-    margin: 0 15px;
-    padding: 5px 10px; /* コントロールボタンを小さく */
+    margin: 0 5px;
+    padding: 5px 15px; /* コントロールボタンを小さく */
     border: none;
     border-radius: 25px;
     background: white;
@@ -92,7 +92,7 @@ body {
 }
 
 #settings {
-    margin: 0 15px;
+    margin: 0 5px;
     padding: 5px 15px;
     border: 2px solid black;
     border-radius: 25px;
