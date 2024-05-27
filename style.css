@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: #1a1a2e;
+    color: white;
+}
+
+#date {
+    font-size: 0.8em;
+}
+
+#time, #countdownDisplay {
+    font-size: 2em;
+    letter-spacing: -0.03em;
+}
+
+#timer {
+    font-size: 3.5em;
+    margin: 10px 0;
+}
+
+#clock, #pomodoro, #countdown {
+    text-align: center;
+    display: none;
+}
+
+#clock.active, #pomodoro.active, #countdown.active {
+    display: block;
+}
+
+.switch {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.switch label {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: 2px solid black;
+    border-radius: 25px;
+    background: white;
+    color: black;
+    cursor: pointer;
+}
+
+.switch input[type="radio"] {
+    display: none;
+}
+
+.switch input[type="radio"]:checked + label {
+    background: black;
+    color: white;
+}
+
+#pomodoro, #countdown {
+    transform: scale(0.8);
+}
+
+#pomodoro .buttons, #countdown .buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#pomodoro .buttons button, #pomodoro .pomodoro-controls button, 
+#countdown .countdown-controls button {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    background: #e94560;
+    color: white;
+    cursor: pointer;
+    border-radius: 25px;
+}
+
+#pomodoro .buttons button {
+    background: #0f3460;
+}
+
+#pomodoro .buttons button.active {
+    background: #e94560;
+}
+
+.settings-button {
+    font-size: 1.2em;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.settings-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: black;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.settings-panel label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.settings-panel button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #e94560;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
