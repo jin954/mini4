@@ -47,7 +47,7 @@ body {
 }
 
 #pomodoro .buttons button {
-    margin: 10 5px;
+    margin: 0 5px;
     padding: 5px 15px; /* ボタンを小さく */
     border: none;
     border-radius: 25px;
