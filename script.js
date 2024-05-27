@@ -1,40 +1,21 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Clock elements
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM elements
     const clockElement = document.getElementById('clock');
-    const dateElement = document.getElementById('date');
-    const timeElement = document.getElementById('time');
-    const clockSettingsButton = document.getElementById('clock-settings');
-    const clockSettingsPanel = document.getElementById('clock-settings-panel');
+    const pomodoroElement = document.getElementById('pomodoro');
+    const countdownElement = document.getElementById('countdown');
+    const switchInputs = document.querySelectorAll('.switch input[name="mode"]');
+
     const timeFormatSelect = document.getElementById('time-format');
     const showSecondsCheckbox = document.getElementById('show-seconds');
     const bgColorSelect = document.getElementById('bg-color');
     const textColorSelect = document.getElementById('text-color');
-    const closeClockSettingsButton = document.getElementById('close-clock-settings');
 
-    // Pomodoro elements
-    const pomodoroElement = document.getElementById('pomodoro');
-    const timerElement = document.getElementById('timer');
-    const startTimerButton = document.getElementById('startTimer');
-    const resetTimerButton = document.getElementById('resetTimer');
-    const pomodoroSettingsButton = document.getElementById('pomodoro-settings');
-    const pomodoroSettingsPanel = document.getElementById('pomodoro-settings-panel');
     const pomodoroMinutesInput = document.getElementById('pomodoroMinutes');
     const shortBreakMinutesInput = document.getElementById('shortBreakMinutes');
     const longBreakMinutesInput = document.getElementById('longBreakMinutes');
     const bgColorPomodoroSelect = document.getElementById('bg-color-pomodoro');
     const textColorPomodoroSelect = document.getElementById('text-color-pomodoro');
-    const closePomodoroSettingsButton = document.getElementById('close-pomodoro-settings');
-    const pomodoroModeButton = document.getElementById('pomodoroMode');
-    const shortBreakModeButton = document.getElementById('shortBreakMode');
-    const longBreakModeButton = document.getElementById('longBreakMode');
 
-    // Countdown elements
-    const countdownElement = document.getElementById('countdown');
-    const countdownDisplay = document.getElementById('countdownDisplay');
-    const startCountdownButton = document.getElementById('startCountdown');
-    const resetCountdownButton = document.getElementById('resetCountdown');
-    const countdownSettingsButton = document.getElementById('countdown-settings');
-    const countdownSettingsPanel = document.getElementById('countdown-settings-panel');
     const countdownYearInput = document.getElementById('countdownYear');
     const countdownMonthInput = document.getElementById('countdownMonth');
     const countdownDayInput = document.getElementById('countdownDay');
@@ -43,147 +24,120 @@ document.addEventListener('DOMContentLoaded', function () {
     const countdownSecondInput = document.getElementById('countdownSecond');
     const bgColorCountdownSelect = document.getElementById('bg-color-countdown');
     const textColorCountdownSelect = document.getElementById('text-color-countdown');
+
+    const clockSettingsPanel = document.getElementById('clock-settings-panel');
+    const pomodoroSettingsPanel = document.getElementById('pomodoro-settings-panel');
+    const countdownSettingsPanel = document.getElementById('countdown-settings-panel');
+
+    const clockSettingsButton = document.getElementById('clock-settings');
+    const pomodoroSettingsButton = document.getElementById('pomodoro-settings');
+    const countdownSettingsButton = document.getElementById('countdown-settings');
+
+    const closeClockSettingsButton = document.getElementById('close-clock-settings');
+    const closePomodoroSettingsButton = document.getElementById('close-pomodoro-settings');
     const closeCountdownSettingsButton = document.getElementById('close-countdown-settings');
 
-    // Switch elements
-    const modeSwitch = document.querySelectorAll('input[name="mode"]');
-
-    let currentMode = 'clock';
     let timerInterval;
     let countdownInterval;
 
-    // Initialize the clock
-    function updateClock() {
-        const now = new Date();
-        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-        const dateStr = now.toLocaleDateString('ja-JP', dateOptions);
-        let timeStr;
-        if (timeFormatSelect.value === '24h') {
-            timeStr = now.toLocaleTimeString('ja-JP', { hour12: false });
-        } else {
-            timeStr = now.toLocaleTimeString('ja-JP', { hour12: true });
-        }
-        if (!showSecondsCheckbox.checked) {
-            timeStr = timeStr.slice(0, -3);
-        }
-        dateElement.textContent = dateStr;
-        timeElement.textContent = timeStr;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
     // Switch between modes
-    modeSwitch.forEach((radio) => {
-        radio.addEventListener('change', function () {
-            currentMode = this.value;
-            clockElement.classList.remove('active');
-            pomodoroElement.classList.remove('active');
-            countdownElement.classList.remove('active');
-            clearInterval(timerInterval);
-            clearInterval(countdownInterval);
-
-            if (currentMode === 'clock') {
-                clockElement.classList.add('active');
-            } else if (currentMode === 'pomodoro') {
-                pomodoroElement.classList.add('active');
-                updatePomodoroTimerDisplay();
-            } else if (currentMode === 'countdown') {
-                countdownElement.classList.add('active');
-                updateCountdownDisplay();
+    switchInputs.forEach(input => {
+        input.addEventListener('change', () => {
+            if (input.checked) {
+                switch (input.value) {
+                    case 'clock':
+                        clockElement.classList.add('active');
+                        pomodoroElement.classList.remove('active');
+                        countdownElement.classList.remove('active');
+                        break;
+                    case 'pomodoro':
+                        clockElement.classList.remove('active');
+                        pomodoroElement.classList.add('active');
+                        countdownElement.classList.remove('active');
+                        break;
+                    case 'countdown':
+                        clockElement.classList.remove('active');
+                        pomodoroElement.classList.remove('active');
+                        countdownElement.classList.add('active');
+                        break;
+                }
             }
         });
     });
 
-    // Clock settings
-    clockSettingsButton.addEventListener('click', () => {
-        clockSettingsPanel.style.display = 'block';
-    });
+    // Update clock
+    function updateClock() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        const date = now.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
 
-    closeClockSettingsButton.addEventListener('click', () => {
-        clockSettingsPanel.style.display = 'none';
-        document.body.style.backgroundColor = bgColorSelect.value;
-        document.body.style.color = textColorSelect.value;
-    });
+        let formattedTime = timeFormatSelect.value === '24h'
+            ? `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
+            : `${(hours % 12 || 12).toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${hours < 12 ? 'AM' : 'PM'}`;
 
-    // Pomodoro timer functionality
-    let pomodoroDuration = parseInt(pomodoroMinutesInput.value) * 60;
-    let shortBreakDuration = parseInt(shortBreakMinutesInput.value) * 60;
-    let longBreakDuration = parseInt(longBreakMinutesInput.value) * 60;
-    let remainingTime = pomodoroDuration;
-    let isPomodoroRunning = false;
+        if (showSecondsCheckbox.checked) {
+            formattedTime += `:${seconds.toString().padStart(2, '0')}`;
+        }
 
-    function updatePomodoroTimerDisplay() {
-        const minutes = Math.floor(remainingTime / 60).toString().padStart(2, '0');
-        const seconds = (remainingTime % 60).toString().padStart(2, '0');
-        timerElement.textContent = `${minutes}:${seconds}`;
+        document.getElementById('date').textContent = date;
+        document.getElementById('time').textContent = formattedTime;
     }
 
-    function startPomodoroTimer() {
-        if (isPomodoroRunning) return;
-        isPomodoroRunning = true;
-        timerInterval = setInterval(() => {
-            if (remainingTime > 0) {
-                remainingTime--;
-                updatePomodoroTimerDisplay();
-            } else {
-                clearInterval(timerInterval);
-                isPomodoroRunning = false;
-            }
-        }, 1000);
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Timer functionality
+    let pomodoroTimer;
+    let isRunning = false;
+
+    const timerDisplay = document.getElementById('timer');
+    const startTimerButton = document.getElementById('startTimer');
+    const resetTimerButton = document.getElementById('resetTimer');
+
+    let remainingTime = pomodoroMinutesInput.value * 60;
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 
-    function resetPomodoroTimer() {
-        clearInterval(timerInterval);
-        isPomodoroRunning = false;
-        remainingTime = pomodoroDuration;
-        updatePomodoroTimerDisplay();
+    function startPomodoro() {
+        if (!isRunning) {
+            isRunning = true;
+            pomodoroTimer = setInterval(() => {
+                if (remainingTime > 0) {
+                    remainingTime--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(pomodoroTimer);
+                    isRunning = false;
+                }
+            }, 1000);
+        }
     }
 
-    startTimerButton.addEventListener('click', startPomodoroTimer);
-    resetTimerButton.addEventListener('click', resetPomodoroTimer);
+    function resetPomodoro() {
+        clearInterval(pomodoroTimer);
+        isRunning = false;
+        remainingTime = pomodoroMinutesInput.value * 60;
+        updateTimerDisplay();
+    }
 
-    // Pomodoro settings
-    pomodoroSettingsButton.addEventListener('click', () => {
-        pomodoroSettingsPanel.style.display = 'block';
-    });
+    startTimerButton.addEventListener('click', startPomodoro);
+    resetTimerButton.addEventListener('click', resetPomodoro);
 
-    closePomodoroSettingsButton.addEventListener('click', () => {
-        pomodoroSettingsPanel.style.display = 'none';
-        pomodoroDuration = parseInt(pomodoroMinutesInput.value) * 60;
-        shortBreakDuration = parseInt(shortBreakMinutesInput.value) * 60;
-        longBreakDuration = parseInt(longBreakMinutesInput.value) * 60;
-        remainingTime = pomodoroDuration;
-        document.body.style.backgroundColor = bgColorPomodoroSelect.value;
-        document.body.style.color = textColorPomodoroSelect.value;
-        updatePomodoroTimerDisplay();
-    });
-
-    pomodoroModeButton.addEventListener('click', () => {
-        pomodoroModeButton.classList.add('active');
-        shortBreakModeButton.classList.remove('active');
-        longBreakModeButton.classList.remove('active');
-        remainingTime = pomodoroDuration;
-        updatePomodoroTimerDisplay();
-    });
-
-    shortBreakModeButton.addEventListener('click', () => {
-        pomodoroModeButton.classList.remove('active');
-        shortBreakModeButton.classList.add('active');
-        longBreakModeButton.classList.remove('active');
-        remainingTime = shortBreakDuration;
-        updatePomodoroTimerDisplay();
-    });
-
-    longBreakModeButton.addEventListener('click', () => {
-        pomodoroModeButton.classList.remove('active');
-        shortBreakModeButton.classList.remove('active');
-        longBreakModeButton.classList.add('active');
-        remainingTime = longBreakDuration;
-        updatePomodoroTimerDisplay();
-    });
+    updateTimerDisplay();
 
     // Countdown functionality
-    function updateCountdownDisplay() {
+    const countdownDisplay = document.getElementById('countdownDisplay');
+    const startCountdownButton = document.getElementById('startCountdown');
+    const resetCountdownButton = document.getElementById('resetCountdown');
+
+    function updateCountdown() {
+        const now = new Date();
         const targetDate = new Date(
             countdownYearInput.value,
             countdownMonthInput.value - 1,
@@ -192,42 +146,92 @@ document.addEventListener('DOMContentLoaded', function () {
             countdownMinuteInput.value,
             countdownSecondInput.value
         );
-        const now = new Date();
-        const diff = targetDate - now;
-        if (diff <= 0) {
-            countdownDisplay.textContent = "00:00:00:00";
+
+        const difference = targetDate - now;
+
+        if (difference <= 0) {
             clearInterval(countdownInterval);
+            countdownDisplay.textContent = '00:00:00:00';
         } else {
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
-            const minutes = Math.floor((diff / 1000 / 60) % 60).toString().padStart(2, '0');
-            const seconds = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
-            countdownDisplay.textContent = `${days}:${hours}:${minutes}:${seconds}`;
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-days').textContent = days;
+            document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
         }
     }
 
-    function startCountdown() {
-        if (countdownInterval) clearInterval(countdownInterval);
-        updateCountdownDisplay();
-        countdownInterval = setInterval(updateCountdownDisplay, 1000);
-    }
+    startCountdownButton.addEventListener('click', () => {
+        countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    });
 
-    function resetCountdown() {
+    resetCountdownButton.addEventListener('click', () => {
         clearInterval(countdownInterval);
-        countdownDisplay.textContent = "00:00:00:00";
-    }
+        document.getElementById('countdown-days').textContent = '0';
+        document.getElementById('countdown-hours').textContent = '00';
+        document.getElementById('countdown-minutes').textContent = '00';
+        document.getElementById('countdown-seconds').textContent = '00';
+    });
 
-    startCountdownButton.addEventListener('click', startCountdown);
-    resetCountdownButton.addEventListener('click', resetCountdown);
+    // Settings handling
+    clockSettingsButton.addEventListener('click', () => {
+        clockSettingsPanel.style.display = 'block';
+    });
 
-    // Countdown settings
+    pomodoroSettingsButton.addEventListener('click', () => {
+        pomodoroSettingsPanel.style.display = 'block';
+    });
+
     countdownSettingsButton.addEventListener('click', () => {
         countdownSettingsPanel.style.display = 'block';
     });
 
+    closeClockSettingsButton.addEventListener('click', () => {
+        clockSettingsPanel.style.display = 'none';
+    });
+
+    closePomodoroSettingsButton.addEventListener('click', () => {
+        pomodoroSettingsPanel.style.display = 'none';
+    });
+
     closeCountdownSettingsButton.addEventListener('click', () => {
         countdownSettingsPanel.style.display = 'none';
+    });
+
+    // Apply settings
+    function applyClockSettings() {
+        document.body.style.backgroundColor = bgColorSelect.value;
+        document.body.style.color = textColorSelect.value;
+    }
+
+    function applyPomodoroSettings() {
+        document.body.style.backgroundColor = bgColorPomodoroSelect.value;
+        document.body.style.color = textColorPomodoroSelect.value;
+    }
+
+    function applyCountdownSettings() {
         document.body.style.backgroundColor = bgColorCountdownSelect.value;
         document.body.style.color = textColorCountdownSelect.value;
+    }
+
+    [timeFormatSelect, showSecondsCheckbox, bgColorSelect, textColorSelect].forEach(element => {
+        element.addEventListener('change', applyClockSettings);
     });
+
+    [pomodoroMinutesInput, shortBreakMinutesInput, longBreakMinutesInput, bgColorPomodoroSelect, textColorPomodoroSelect].forEach(element => {
+        element.addEventListener('change', applyPomodoroSettings);
+    });
+
+    [countdownYearInput, countdownMonthInput, countdownDayInput, countdownHourInput, countdownMinuteInput, countdownSecondInput, bgColorCountdownSelect, textColorCountdownSelect].forEach(element => {
+        element.addEventListener('change', applyCountdownSettings);
+    });
+
+    applyClockSettings();
+    applyPomodoroSettings();
+    applyCountdownSettings();
 });
