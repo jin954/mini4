@@ -1,157 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clock, Pomodoro, and Countdown Timer</title>
+    <title>Clock and Pomodoro Timer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="switch">
-            <label>
-                <input type="radio" name="mode" value="clock" checked>
-                Clock
-            </label>
-            <label>
-                <input type="radio" name="mode" value="pomodoro">
-                Pomodoro
-            </label>
-            <label>
-                <input type="radio" name="mode" value="countdown">
-                Countdown
-            </label>
-        </div>
+    <div id="clock" class="active">
+        <div id="date"></div>
+        <div id="time"></div>
+    </div>
 
-        <!-- Clock Mode -->
-        <div id="clock" class="mode active">
-            <div id="date"></div>
-            <div id="time"></div>
-            <button id="clock-settings" class="settings-button">⚙️</button>
+    <div id="pomodoro">
+        <div class="buttons">
+            <button id="pomodoro-mode" class="active">Pomodoro</button>
+            <button id="short-break-mode">Short Break</button>
+            <button id="long-break-mode">Long Break</button>
         </div>
+        <div id="timer">25:00</div>
+        <div class="pomodoro-controls">
+            <button id="start-pomodoro">Start</button>
+            <button id="reset-pomodoro">🔄</button>
+            <button id="open-settings">⚙️</button>
+        </div>
+        <div id="settings" style="display: none;">
+            <label>Pomodoro: <input type="number" id="pomodoro-minutes" value="25" min="1" max="60"> 分</label>
+            <label>Short Break: <input type="number" id="short-break-minutes" value="5" min="1" max="30"> 分</label>
+            <label>Long Break: <input type="number" id="long-break-minutes" value="15" min="1" max="60"> 分</label>
+            <button id="set-pomodoro">設定</button>
+        </div>
+    </div>
 
-        <!-- Pomodoro Mode -->
-        <div id="pomodoro" class="mode">
-            <div id="timer"></div>
-            <div class="pomodoro-controls">
-                <button id="startTimer">Start</button>
-                <button id="resetTimer">Reset</button>
-                <button id="pomodoro-settings" class="settings-button">⚙️</button>
-            </div>
-        </div>
-
-        <!-- Countdown Mode -->
-        <div id="countdown" class="mode">
-            <div id="countdownDisplay">
-                <span class="countdown-segment">
-                    <span id="countdown-days" class="countdown-number">0</span>
-                    <span class="countdown-label">Days</span>
-                </span>
-                <span class="countdown-segment">
-                    <span id="countdown-hours" class="countdown-number">00</span>
-                    <span class="countdown-label">Hours</span>
-                </span>
-                <span class="countdown-segment">
-                    <span id="countdown-minutes" class="countdown-number">00</span>
-                    <span class="countdown-label">Minutes</span>
-                </span>
-                <span class="countdown-segment">
-                    <span id="countdown-seconds" class="countdown-number">00</span>
-                    <span class="countdown-label">Seconds</span>
-                </span>
-            </div>
-            <div class="countdown-controls">
-                <button id="startCountdown">Start</button>
-                <button id="resetCountdown">Reset</button>
-                <button id="countdown-settings" class="settings-button">⚙️</button>
-            </div>
-        </div>
-
-        <!-- Clock Settings Panel -->
-        <div id="clock-settings-panel" class="settings-panel">
-            <label>
-                Time Format:
-                <select id="time-format">
-                    <option value="24h">24-hour</option>
-                    <option value="12h">12-hour</option>
-                </select>
-            </label>
-            <label>
-                Show Seconds:
-                <input type="checkbox" id="show-seconds">
-            </label>
-            <label>
-                Background Color:
-                <input type="color" id="bg-color">
-            </label>
-            <label>
-                Text Color:
-                <input type="color" id="text-color">
-            </label>
-            <button id="close-clock-settings">Close</button>
-        </div>
-
-        <!-- Pomodoro Settings Panel -->
-        <div id="pomodoro-settings-panel" class="settings-panel">
-            <label>
-                Pomodoro Minutes:
-                <input type="number" id="pomodoroMinutes" value="25" min="1">
-            </label>
-            <label>
-                Short Break Minutes:
-                <input type="number" id="shortBreakMinutes" value="5" min="1">
-            </label>
-            <label>
-                Long Break Minutes:
-                <input type="number" id="longBreakMinutes" value="15" min="1">
-            </label>
-            <label>
-                Background Color:
-                <input type="color" id="bg-color-pomodoro">
-            </label>
-            <label>
-                Text Color:
-                <input type="color" id="text-color-pomodoro">
-            </label>
-            <button id="close-pomodoro-settings">Close</button>
-        </div>
-
-        <!-- Countdown Settings Panel -->
-        <div id="countdown-settings-panel" class="settings-panel">
-            <label>
-                Year:
-                <input type="number" id="countdownYear" value="2024">
-            </label>
-            <label>
-                Month:
-                <input type="number" id="countdownMonth" value="1" min="1" max="12">
-            </label>
-            <label>
-                Day:
-                <input type="number" id="countdownDay" value="1" min="1" max="31">
-            </label>
-            <label>
-                Hour:
-                <input type="number" id="countdownHour" value="0" min="0" max="23">
-            </label>
-            <label>
-                Minute:
-                <input type="number" id="countdownMinute" value="0" min="0" max="59">
-            </label>
-            <label>
-                Second:
-                <input type="number" id="countdownSecond" value="0" min="0" max="59">
-            </label>
-            <label>
-                Background Color:
-                <input type="color" id="bg-color-countdown">
-            </label>
-            <label>
-                Text Color:
-                <input type="color" id="text-color-countdown">
-            </label>
-            <button id="close-countdown-settings">Close</button>
-        </div>
+    <div class="switch">
+        <label>
+            <input type="radio" name="mode" value="clock" checked> 時計
+        </label>
+        <label>
+            <input type="radio" name="mode" value="pomodoro"> ポモドーロ
+        </label>
     </div>
 
     <script src="script.js"></script>
