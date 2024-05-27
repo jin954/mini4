@@ -86,7 +86,7 @@ body {
 
 #open-settings {
     font-size: 1.5em; /* 歯車マークの大きさはそのまま */
-    background: none;
+    background: white;
     border: none;
     cursor: pointer;
 }
