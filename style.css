@@ -64,7 +64,7 @@ body {
 
 #timer {
     font-size: 5em; /* タイマーのフォントサイズを小さく */
-    margin: 10px 0; /* 上下の余白を小さく */
+    margin: 10px 0 15px 0; /* 上下の余白を小さく */
 }
 
 .pomodoro-controls {
